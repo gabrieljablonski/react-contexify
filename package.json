@@ -1,5 +1,5 @@
 {
-  "version": "5.0.0",
+  "version": "5.0.1",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -39,14 +39,14 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "name": "react-contexify",
-  "author": "Fadi Khadra <fdkhadra@gmail.com> (https://github.com/fkhadra)",
+  "name": "@gabrieljablonski/react-contexify",
+  "author": "Gabriel Jablonski",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fkhadra/react-contexify.git"
+    "url": "git+https://github.com/gabrieljablonski/react-contexify.git"
   },
   "bugs": {
-    "url": "https://github.com/fkhadra/react-contexify/issues"
+    "url": "https://github.com/gabrieljablonski/react-contexify/issues"
   },
   "description": "Add contextmenu to your react component with ease",
   "keywords": [
