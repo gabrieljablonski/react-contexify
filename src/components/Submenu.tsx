@@ -10,6 +10,7 @@ import { cloneItems, getPredicateValue } from './utils';
 export interface SubMenuProps
   extends InternalProps,
     Omit<React.HTMLAttributes<HTMLElement>, 'hidden'> {
+  id: string;
   /**
    * Any valid node that can be rendered
    */
@@ -44,6 +45,7 @@ interface SubMenuState {
 }
 
 export const Submenu: React.FC<SubMenuProps> = ({
+  id,
   arrow = '▶',
   children,
   disabled = false,
@@ -66,6 +68,7 @@ export const Submenu: React.FC<SubMenuProps> = ({
   const handlerParams = {
     triggerEvent: triggerEvent as HandlerParamsEvent,
     props: propsFromTrigger,
+    itemId: id,
   };
   const isDisabled = getPredicateValue(disabled, handlerParams);
   const isHidden = getPredicateValue(hidden, handlerParams);

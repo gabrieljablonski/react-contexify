@@ -1,5 +1,5 @@
 {
-  "version": "5.0.3",
+  "version": "5.0.2",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -39,7 +39,11 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "name": "@gabrieljablonski/react-contexify",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "name": "@viacast/react-contexify",
   "author": "Gabriel Jablonski",
   "repository": {
     "type": "git",

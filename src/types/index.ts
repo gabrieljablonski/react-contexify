@@ -45,6 +45,8 @@ interface HandlerParams<Props = any, Data = any> {
    * Data object provided to item
    */
   data?: Data;
+
+  itemId?: string;
 }
 
 /**
