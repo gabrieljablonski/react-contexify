@@ -1,5 +1,5 @@
 {
-  "version": "5.0.4",
+  "version": "5.0.5",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -16,7 +16,7 @@
     "start:example": "cd example && yarn start",
     "build": "yarn run prepare",
     "test": "cypress run",
-    "lint": "tsdx lint",
+    "lint": "tsdx lint --fix",
     "prepare": "tsdx build && yarn run style",
     "cypress:open": "cypress open",
     "sass": "sass scss/main.scss dist/ReactContexify.css",
