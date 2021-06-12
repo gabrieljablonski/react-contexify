@@ -1,7 +1,7 @@
 /*
  * css classes mapping
  * */
-export const enum STYLE {
+export enum STYLE {
   menu = 'react-contexify',
   submenu = 'react-contexify react-contexify__submenu',
   submenuArrow = 'react-contexify__submenu-arrow',
@@ -15,7 +15,7 @@ export const enum STYLE {
   animationWillLeave = 'react-contexify__will-leave--',
 }
 
-export const enum EVENT {
+export enum EVENT {
   HIDE_ALL,
 }
 

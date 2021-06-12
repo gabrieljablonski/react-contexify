@@ -157,15 +157,12 @@ export const Menu: React.FC<MenuProps> = ({
         offsetHeight: menuHeight,
       } = nodeRef.current!;
       let { x, y } = state;
-
       if (x + menuWidth > windowWidth) {
         x -= x + menuWidth - windowWidth;
       }
-
       if (y + menuHeight > windowHeight) {
-        y -= y + menuHeight - windowHeight;
+        y -= menuHeight;
       }
-
       setState({
         x,
         y,
@@ -233,7 +230,6 @@ export const Menu: React.FC<MenuProps> = ({
   function show({ event, props, position }: ContextMenuParams) {
     event.stopPropagation();
     const { x, y } = position || getMousePosition(event);
-
     // prevent react from batching the state update
     // if the menu is already visible we have to recompute bounding rect based on position
     setTimeout(() => {
