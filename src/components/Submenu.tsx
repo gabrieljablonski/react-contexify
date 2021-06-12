@@ -45,7 +45,7 @@ interface SubMenuState {
 }
 
 export const Submenu: React.FC<SubMenuProps> = ({
-  id,
+  id = '',
   arrow = '▶',
   children,
   disabled = false,
@@ -66,12 +66,19 @@ export const Submenu: React.FC<SubMenuProps> = ({
     bottom: 'initial',
   });
   const handlerParams = {
+    id,
     triggerEvent: triggerEvent as HandlerParamsEvent,
     props: propsFromTrigger,
-    itemId: id,
   };
-  const isDisabled = getPredicateValue(disabled, handlerParams);
-  const isHidden = getPredicateValue(hidden, handlerParams);
+
+  const isDisabled =
+    getPredicateValue(disabled, handlerParams) ||
+    propsFromTrigger?.disabledPredicates?.[id]?.(handlerParams) ||
+    false;
+  const isHidden =
+    getPredicateValue(hidden, handlerParams) ||
+    propsFromTrigger?.hiddenPredicates?.[id]?.(handlerParams) ||
+    false;
 
   useEffect(() => {
     if (nodeRef.current) {

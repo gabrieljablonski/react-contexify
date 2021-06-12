@@ -8,7 +8,7 @@ import {
   HandlerParamsEvent,
 } from '../types';
 import { useRefTrackerContext } from './RefTrackerProvider';
-import { NOOP, STYLE } from '../constants';
+import { STYLE } from '../constants';
 import { getPredicateValue } from './utils';
 
 export interface ItemProps
@@ -82,31 +82,44 @@ export interface ItemProps
 }
 
 export const Item: React.FC<ItemProps> = ({
-  id,
+  id = '',
   children,
   className,
   style,
   triggerEvent,
   data,
   propsFromTrigger,
-  onClick = NOOP,
+  onClick = null,
   disabled = false,
   hidden = false,
   ...rest
 }) => {
   const refTracker = useRefTrackerContext();
   const handlerParams = {
+    id,
     data,
-    triggerEvent: triggerEvent as HandlerParamsEvent,
     props: propsFromTrigger,
-    itemId: id,
+    triggerEvent: triggerEvent as HandlerParamsEvent,
   };
-  const isDisabled = getPredicateValue(disabled, handlerParams);
-  const isHidden = getPredicateValue(hidden, handlerParams);
+
+  const isDisabled =
+    getPredicateValue(disabled, handlerParams) ||
+    propsFromTrigger?.disabledPredicates?.[id]?.(handlerParams) ||
+    false;
+  const isHidden =
+    getPredicateValue(hidden, handlerParams) ||
+    propsFromTrigger?.hiddenPredicates?.[id]?.(handlerParams) ||
+    false;
 
   function handleClick(e: React.MouseEvent<HTMLElement>) {
     (handlerParams as ItemParams).event = e;
-    isDisabled ? e.stopPropagation() : onClick(handlerParams as ItemParams);
+    if (isDisabled) {
+      e.stopPropagation();
+    } else if (onClick) {
+      onClick?.(handlerParams as ItemParams);
+    } else {
+      propsFromTrigger?.onClickHandlers?.[id]?.(handlerParams);
+    }
   }
 
   function trackRef(node: HTMLElement | null) {
@@ -120,7 +133,7 @@ export const Item: React.FC<ItemProps> = ({
   function handleKeyDown(e: React.KeyboardEvent<HTMLElement>) {
     if (e.key === 'Enter') {
       (handlerParams as ItemParams).event = e;
-      onClick(handlerParams as ItemParams);
+      onClick?.(handlerParams as ItemParams);
     }
   }
 

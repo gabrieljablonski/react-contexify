@@ -46,7 +46,7 @@ interface HandlerParams<Props = any, Data = any> {
    */
   data?: Data;
 
-  itemId?: string;
+  id?: string;
 }
 
 /**
@@ -94,7 +94,7 @@ export type PredicateParams<Props = any, Data = any> = HandlerParams<
  */
 export interface ItemParams<Props = any, Data = any>
   extends HandlerParams<Props, Data> {
-  itemId: string;
+  id: string;
   event:
     | React.MouseEvent<HTMLElement>
     | React.TouchEvent<HTMLElement>
