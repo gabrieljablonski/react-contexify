@@ -161,7 +161,7 @@ export const Menu: React.FC<MenuProps> = ({
         x -= x + menuWidth - windowWidth;
       }
       if (y + menuHeight > windowHeight) {
-        y -= menuHeight;
+        y = Math.max(0, y - menuHeight);
       }
       setState({
         x,
