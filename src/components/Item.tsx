@@ -80,7 +80,7 @@ export interface ItemProps
    */
   onClick?: (args: ItemParams) => void;
 
-  render?: (params: any) => void;
+  render?: (params: any) => ReactNode;
 }
 
 export const Item: React.FC<ItemProps> = ({
@@ -159,7 +159,7 @@ export const Item: React.FC<ItemProps> = ({
       aria-disabled={isDisabled}
     >
       <div className={STYLE.itemContent}>
-        {render?.(handlerParams) || children}
+        {render ? render(handlerParams) : children}
       </div>
     </div>
   );
