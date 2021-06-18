@@ -17,7 +17,7 @@ export interface ItemProps
   /**
    * Any valid node that can be rendered
    */
-  children: ReactNode;
+  children?: ReactNode;
 
   /**
    * Passed to the `Item` onClick callback. Accessible via `data`
