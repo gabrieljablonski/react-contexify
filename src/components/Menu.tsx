@@ -158,7 +158,7 @@ export const Menu: React.FC<MenuProps> = ({
       } = nodeRef.current!;
       let { x, y } = state;
       if (x + menuWidth > windowWidth) {
-        x -= x + menuWidth - windowWidth;
+        x = menuWidth - windowWidth;
       }
       if (y + menuHeight > windowHeight) {
         y = Math.max(0, y - menuHeight);
