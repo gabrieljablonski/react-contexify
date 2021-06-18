@@ -79,6 +79,8 @@ export interface ItemProps
    * ```
    */
   onClick?: (args: ItemParams) => void;
+
+  render?: (params: any) => void;
 }
 
 export const Item: React.FC<ItemProps> = ({
@@ -92,6 +94,7 @@ export const Item: React.FC<ItemProps> = ({
   onClick = null,
   disabled = false,
   hidden = false,
+  render = null,
   ...rest
 }) => {
   const refTracker = useRefTrackerContext();
@@ -155,7 +158,9 @@ export const Item: React.FC<ItemProps> = ({
       role="menuitem"
       aria-disabled={isDisabled}
     >
-      <div className={STYLE.itemContent}>{children}</div>
+      <div className={STYLE.itemContent}>
+        {render?.(handlerParams) || children}
+      </div>
     </div>
   );
 };
