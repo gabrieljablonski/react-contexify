@@ -78,6 +78,7 @@ export interface MenuProps
 interface MenuState {
   x: number;
   y: number;
+  willShow: boolean;
   visible: boolean;
   triggerEvent: TriggerEvent;
   propsFromTrigger: any;
@@ -107,6 +108,7 @@ export const Menu: React.FC<MenuProps> = ({
   const [state, setState] = useReducer(reducer, {
     x: 0,
     y: 0,
+    willShow: false,
     visible: false,
     triggerEvent: {} as TriggerEvent,
     propsFromTrigger: null,
@@ -158,7 +160,7 @@ export const Menu: React.FC<MenuProps> = ({
       } = nodeRef.current!;
       let { x, y } = state;
       if (x + menuWidth > windowWidth) {
-        x = menuWidth - windowWidth;
+        x = windowWidth - menuWidth;
       }
       if (y + menuHeight > windowHeight) {
         y = Math.max(0, y - menuHeight);
@@ -242,6 +244,9 @@ export const Menu: React.FC<MenuProps> = ({
         propsFromTrigger: props,
       });
     }, 0);
+    setTimeout(() => {
+      setState({ willShow: true });
+    }, 0);
   }
 
   function hide(event?: Event) {
@@ -259,12 +264,15 @@ export const Menu: React.FC<MenuProps> = ({
 
     hasExitAnimation(animation)
       ? setState(state => ({ willLeave: state.visible }))
-      : setState(state => ({ visible: state.visible ? false : state.visible }));
+      : setState(state => ({
+          visible: state.visible ? false : state.visible,
+          willShow: state.visible ? false : state.visible,
+        }));
   }
 
   function handleAnimationEnd() {
     if (state.willLeave && state.visible) {
-      setState({ visible: false, willLeave: false });
+      setState({ visible: false, willLeave: false, willShow: false });
     }
   }
 
@@ -312,7 +320,7 @@ export const Menu: React.FC<MenuProps> = ({
           {...rest}
           className={cssClasses}
           onAnimationEnd={handleAnimationEnd}
-          style={menuStyle}
+          style={{ ...menuStyle, opacity: state.willShow ? 1 : 0 }}
           ref={nodeRef}
           role="menu"
         >
