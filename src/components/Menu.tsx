@@ -73,6 +73,8 @@ export interface MenuProps
    * Invoked after the menu has been hidden.
    */
   onHidden?: () => void;
+
+  hideOnMouseLeave?: boolean;
 }
 
 interface MenuState {
@@ -103,6 +105,7 @@ export const Menu: React.FC<MenuProps> = ({
   animation = 'scale',
   onHidden = NOOP,
   onShown = NOOP,
+  hideOnMouseLeave,
   ...rest
 }) => {
   const [state, setState] = useReducer(reducer, {
@@ -323,6 +326,11 @@ export const Menu: React.FC<MenuProps> = ({
           style={{ ...menuStyle, opacity: state.willShow ? 1 : 0 }}
           ref={nodeRef}
           role="menu"
+          onMouseLeave={() => {
+            if (hideOnMouseLeave) {
+              hide();
+            }
+          }}
         >
           {cloneItems(children, {
             propsFromTrigger,
