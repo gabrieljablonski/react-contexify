@@ -75,6 +75,8 @@ export interface MenuProps
   onHidden?: () => void;
 
   hideOnMouseLeave?: boolean;
+
+  ignoreBounds?: boolean;
 }
 
 interface MenuState {
@@ -105,7 +107,8 @@ export const Menu: React.FC<MenuProps> = ({
   animation = 'scale',
   onHidden = NOOP,
   onShown = NOOP,
-  hideOnMouseLeave,
+  hideOnMouseLeave = false,
+  ignoreBounds = false,
   ...rest
 }) => {
   const [state, setState] = useReducer(reducer, {
@@ -161,6 +164,9 @@ export const Menu: React.FC<MenuProps> = ({
         offsetWidth: menuWidth,
         offsetHeight: menuHeight,
       } = nodeRef.current!;
+      if (ignoreBounds) {
+        return;
+      }
       let { x, y } = state;
       if (x + menuWidth > windowWidth) {
         x = windowWidth - menuWidth;
