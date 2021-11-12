@@ -79,6 +79,8 @@ export interface MenuProps
   ignoreBounds?: boolean;
 
   ignoreKeyboard?: boolean;
+
+  ignoreClickOutside?: boolean;
 }
 
 interface MenuState {
@@ -112,6 +114,7 @@ export const Menu: React.FC<MenuProps> = ({
   hideOnMouseLeave = false,
   ignoreBounds = false,
   ignoreKeyboard = false,
+  ignoreClickOutside = false,
   ...rest
 }) => {
   const [state, setState] = useReducer(reducer, {
@@ -222,9 +225,12 @@ export const Menu: React.FC<MenuProps> = ({
     if (state.visible) {
       window.addEventListener('resize', hide);
       window.addEventListener('contextmenu', hide);
-      window.addEventListener('click', hide);
+      window.addEventListener('click', ignoreClickOutside ? NOOP : hide);
       window.addEventListener('scroll', hide);
-      window.addEventListener('keydown', handleKeyboard);
+      window.addEventListener(
+        'keydown',
+        ignoreKeyboard ? NOOP : handleKeyboard
+      );
 
       // This let us debug the menu in the console in dev mode
       if (process.env.NODE_ENV !== 'development') {
