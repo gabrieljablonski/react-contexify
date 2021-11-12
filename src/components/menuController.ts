@@ -26,15 +26,15 @@ export function createMenuController() {
   }
 
   function focusSelectedItem() {
-    currentItems[focusedIndex].node.focus();
+    currentItems[focusedIndex]?.node.focus();
   }
 
   function isSubmenuFocused() {
-    return focusedIndex >= 0 && currentItems[focusedIndex].isSubmenu;
+    return focusedIndex >= 0 && currentItems[focusedIndex]?.isSubmenu;
   }
 
   function getSubmenuItems() {
-    return Array.from(currentItems[focusedIndex].submenuRefTracker!.values());
+    return Array.from(currentItems[focusedIndex]?.submenuRefTracker!.values());
   }
 
   function isFocused() {
@@ -74,7 +74,7 @@ export function createMenuController() {
   function openSubmenu() {
     if (isFocused() && isSubmenuFocused()) {
       const submenuItems = getSubmenuItems();
-      const currentNode = currentItems[focusedIndex].node;
+      const currentNode = currentItems[focusedIndex]?.node;
 
       menuList.set(currentNode, {
         isRoot: isAtRoot,
