@@ -77,6 +77,8 @@ export interface MenuProps
   hideOnMouseLeave?: boolean;
 
   ignoreBounds?: boolean;
+
+  ignoreKeyboard?: boolean;
 }
 
 interface MenuState {
@@ -109,6 +111,7 @@ export const Menu: React.FC<MenuProps> = ({
   onShown = NOOP,
   hideOnMouseLeave = false,
   ignoreBounds = false,
+  ignoreKeyboard = false,
   ...rest
 }) => {
   const [state, setState] = useReducer(reducer, {
@@ -187,7 +190,7 @@ export const Menu: React.FC<MenuProps> = ({
   // subscribe dom events
   useEffect(() => {
     function handleKeyboard(e: KeyboardEvent) {
-      e.preventDefault();
+      let preventDefault = true;
       switch (e.key) {
         case 'Enter':
           if (!menuController.openSubmenu()) hide();
@@ -207,6 +210,12 @@ export const Menu: React.FC<MenuProps> = ({
         case 'ArrowLeft':
           menuController.closeSubmenu();
           break;
+        default:
+          preventDefault = false;
+          break;
+      }
+      if (preventDefault) {
+        e.preventDefault();
       }
     }
 
@@ -228,7 +237,10 @@ export const Menu: React.FC<MenuProps> = ({
       window.removeEventListener('contextmenu', hide);
       window.removeEventListener('click', hide);
       window.removeEventListener('scroll', hide);
-      window.removeEventListener('keydown', handleKeyboard);
+      window.removeEventListener(
+        'keydown',
+        ignoreKeyboard ? NOOP : handleKeyboard
+      );
 
       if (process.env.NODE_ENV !== 'development') {
         window.removeEventListener('blur', hide);
@@ -236,7 +248,7 @@ export const Menu: React.FC<MenuProps> = ({
     };
     // state.visible will let us get the right reference to `hide`
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.visible, menuController]);
+  }, [state.visible, menuController, ignoreKeyboard]);
 
   function show({ event, props, position }: ContextMenuParams) {
     event.stopPropagation();
